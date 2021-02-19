@@ -5,48 +5,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MultiFolderPlaylistMaker {
-    
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        System.out.println("Welcome to Stef's Multi-Playlist Maker 9001!");
-        System.out.println("Please enter the absolute path to the folder containing the folders for the playlists: ");
-        
-        String sourceString = scanner.nextLine();
-        File sourceDir = new File(sourceString);
-        if (!sourceDir.isDirectory()) {
-            System.out.println("Wrong path, specified directory not found");
-            return;
-        }
-        
-        System.out.println("Please enter the absolute path to the location you wish to save the playlists to: ");
-        String saveString = scanner.nextLine();
-        File saveDir = new File(saveString);
-        if (saveDir.isFile()) {
-            System.out.println("Wrong path, can't save to a file, specify a save directory\n" +
-                    "If folder doesn't exist, it will be created");
-            return;
-        }
-        
-        //create the folder if it doesn't exist
-        if(!saveDir.exists()){
-            saveDir.mkdirs();
-        }
-        
-        //get a list of folders in the user specified directory
-        String[] folders = sourceDir.list();
-        for (String str : folders) {
-            File currentFile = new File(sourceString + "\\" + str);
-            if (currentFile.isDirectory()) {
-                PlaylistMaker.createAPlaylist(currentFile, str, saveString);
-            }
-        }
-        
-        String title = sourceString.substring(sourceString.lastIndexOf("\\") + 1);
-        combinePlaylists(saveDir, title, saveString);
-    }
-    
+public class PlaylistCombiner {
     
     public static void combinePlaylists(File directory, String plName, String saveDir) {
         //filter the files by the extension (look for existing playlists in the specified folder)

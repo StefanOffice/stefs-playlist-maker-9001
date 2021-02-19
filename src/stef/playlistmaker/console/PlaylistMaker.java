@@ -1,55 +1,9 @@
 package stef.playlistmaker.console;
 
 import java.io.*;
-import java.util.Scanner;
+
 
 public class PlaylistMaker {
-    
-    public static void main(String[] args) {
-        //for reading user input from console
-        Scanner scanner = new Scanner(System.in);
-        
-        System.out.println("Welcome to Stef's Playlist Maker 9001!");
-        System.out.println("Please enter the absolute path to the folder containing the files for the playlist: ");
-        //read the user input
-        String pathLine = scanner.nextLine();
-        
-        //check if the path user entered leads to an existing directory
-        File sourceDir = new File(pathLine);
-        if (!sourceDir.isDirectory()) {
-            System.out.println("Wrong path, specified directory not found");
-            //if not stop the program
-            return;
-        }
-        
-        System.out.println("Please enter the absolute path to the location you wish to save the playlist to: ");
-        //read the user input
-        String saveString = scanner.nextLine();
-        //check if the path leads to a file
-        File saveDir = new File(saveString);
-        if (saveDir.isFile()) {
-            System.out.println("Wrong path, can't save to a file, specify a save directory\n" +
-                    "If folder doesn't exist, it will be created");
-            //if yes stop the program
-            return;
-        }
-        
-        System.out.println("Please enter the name for the playlist (or 'quit' to exit): ");
-        //read the user input
-        String title = scanner.nextLine();
-        //check if user input is valid. If not, offer a chance to re-enter a different name.
-        while (!title.trim().matches("^[a-zA-Z0-9\s]{1,15}$")) {
-            System.out.println("Title can only contain 1-15 alphanumeric characters.");
-            System.out.println("Please enter the name for the playlist (or 'quit' to exit): ");
-            title = scanner.nextLine();
-        }
-        
-        //if user entered 'quit' it will pass the regex check but cancel creating the playlist
-        if (title.trim().equalsIgnoreCase("quit"))
-            return;
-        
-        createAPlaylist(sourceDir, title, saveString);
-    }
     
     public static void createAPlaylist(File sourceDir, String plName, String saveDir) {
         
