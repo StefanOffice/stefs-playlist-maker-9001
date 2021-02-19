@@ -15,8 +15,8 @@ public class PlaylistMaker {
         String pathLine = scanner.nextLine();
         
         //check if the path user entered leads to an existing directory
-        File readDir = new File(pathLine);
-        if (!readDir.isDirectory()) {
+        File sourceDir = new File(pathLine);
+        if (!sourceDir.isDirectory()) {
             System.out.println("Wrong path, specified directory not found");
             //if not stop the program
             return;
@@ -48,18 +48,26 @@ public class PlaylistMaker {
         if (title.trim().equalsIgnoreCase("quit"))
             return;
         
+        createAPlaylist(sourceDir, title, saveString);
+    }
+    
+    public static void createAPlaylist(File sourceDir, String plName, String saveDir) {
+        
         //filter the files by the extension (only add .mp4 files to the playlist)
         FilenameFilter filter = (File dir, String name) -> name.matches(".*\\.mp4");
-        //save the list of eligible files
-        File[] files = readDir.listFiles(filter);
         
-        //print eligible files to console
+        //save the list of eligible files
+        File[] files = sourceDir.listFiles(filter);
+        if (files.length < 1)
+            return;
+        
+        //create a new file for the playlist
+        File playlist = new File(saveDir + "\\" + plName + ".xspf");
+        
+        //print eligible files to console(for debugging)
         for (File current : files) {
             System.out.println(current.getAbsolutePath());
         }
-        
-        //create a new file for the playlist
-        File playlist = new File(saveString + "\\" + title + ".xspf");
         
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(playlist));) {
             //write starting info
@@ -70,13 +78,15 @@ public class PlaylistMaker {
             
             int trackCount = 0;
             //for each of the files write the information and path to the xspf file
-            for (File currentFile : files) {
+            for (File current : files) {
                 //replace the special characters so vlc can read the file without errors
-                String currentFilePath = currentFile.getAbsolutePath()
+                String currentFilePath = current.getAbsolutePath()
                         .replace(" ", "%20")
-                        .replace("\\", "/");
+                        .replace("\\", "/")
+                        .replace("&", "&amp;")
+                        .replace("#", "%23");
                 
-                //track specific information
+                //write track specific information
                 bw.write("\t\t<track>\n");
                 bw.write("\t\t\t<location>file:///" + currentFilePath + "</location>\n");
                 bw.write("\t\t\t<duration></duration>\n");
@@ -98,12 +108,10 @@ public class PlaylistMaker {
             bw.write("</playlist>");
             
         } catch (IOException e) {
-            //if any error occurs give user the info about it and auto-terminate the app...
-            System.out.println("Something bad happened, please try re-running the program.");
+            System.out.println("Something bad happened, try again");
             e.printStackTrace();
         }
         
-        //inform the user of the result
         if(playlist.exists())
             System.out.println("Playlist created successfully: " + playlist.getAbsolutePath());
         else
