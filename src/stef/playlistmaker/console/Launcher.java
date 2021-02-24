@@ -51,8 +51,7 @@ public class Launcher {
             //if yes stop the program
             return;
         }
-    
-    
+        
         //create the folder if it doesn't exist
         if(!saveDir.exists()){
             saveDir.mkdirs();
@@ -60,31 +59,13 @@ public class Launcher {
     
         //if user selected option 1 just create a playlist
         if(choice.trim().equals("1")) {
-            
-            File singleFile = new File(sourceString);
-            PlaylistMaker.createAPlaylist(singleFile, singleFile.getName(), saveString);
-            System.out.println("Playlist: " + singleFile.getName() + " created, and saved to " + saveString);
+            PlaylistMaker.createAPlaylist(sourceDir, saveDir, sourceDir.getName());
+            System.out.println("Playlist: " + sourceDir.getName() + " created, and saved to " + saveDir);
         
         } else if(choice.trim().equals("2")) {
-            String[] folders = sourceDir.list();
-        
-            //create a playlist for each of the subfolders
-            for (String str : folders) {
-                File currentSubDir = new File(sourceString + "\\" + str);
-                if (currentSubDir.isDirectory()) {
-                    StringBuilder name = new StringBuilder();
-                    //if folders are numbered append zero to single digits to help keep things in order
-                    if (str.matches("\\d{1}\\..*"))
-                        name.append(0);
-                    name.append(str);
-                    
-                    PlaylistMaker.createAPlaylist(currentSubDir, name.toString(), saveString);
-                }
-            }
-            
-            String title = sourceString.substring(sourceString.lastIndexOf("\\") + 1);
+            String title = sourceDir.getAbsolutePath().substring(sourceDir.getAbsolutePath().lastIndexOf("\\") + 1);
             //combine the playlists
-            PlaylistCombiner.combinePlaylists(saveDir, title, saveString);
+            PlaylistMaker.createPlaylistsForSubFolders(sourceDir, saveDir, title);
         }
     }
     

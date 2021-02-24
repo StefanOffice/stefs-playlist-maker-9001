@@ -7,10 +7,10 @@ import java.util.regex.Pattern;
 
 public class PlaylistCombiner {
     
-    public static void combinePlaylists(File directory, String plName, String saveDir) {
+    public static void combinePlaylists(File sourceDir, File saveDir, String plName) {
         //filter the files by the extension (look for existing playlists in the specified folder)
         FilenameFilter filter = (File dir, String name) -> name.matches(".*\\.xspf");
-        File[] files = directory.listFiles(filter);
+        File[] files = sourceDir.listFiles(filter);
         //if there is not at least 2 playlists then there is nothing to combine
         if (files.length < 2) {
             System.out.println("Specified folder contains less than 2 playlists, nothing to combine.");

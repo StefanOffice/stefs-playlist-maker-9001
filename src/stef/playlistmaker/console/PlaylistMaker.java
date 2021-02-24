@@ -5,7 +5,7 @@ import java.io.*;
 
 public class PlaylistMaker {
     
-    public static void createAPlaylist(File sourceDir, String plName, String saveDir) {
+    public static boolean createAPlaylist(File sourceDir, File saveDir, String plName) {
         
         //filter the files by the extension (only add .mp4 files to the playlist)
         FilenameFilter filter = (File dir, String name) -> name.matches(".*\\.mp4");
@@ -13,10 +13,10 @@ public class PlaylistMaker {
         //save the list of eligible files
         File[] files = sourceDir.listFiles(filter);
         if (files.length < 1)
-            return;
+            return false;
         
         //create a new file for the playlist
-        File playlist = new File(saveDir + "\\" + plName + ".xspf");
+        File playlist = new File(saveDir.getAbsolutePath() + "\\" + plName + ".xspf");
         
         //print eligible files to console(for debugging)
         for (File current : files) {
@@ -70,6 +70,39 @@ public class PlaylistMaker {
             System.out.println("Playlist created successfully: " + playlist.getAbsolutePath());
         else
             System.out.println("Something went wrong...");
+        
+        return playlist.exists();
+    }
+    
+    public static boolean createPlaylistsForSubFolders(File sourceDir, File saveDirParent, String playlistFolderName) {
+        
+        String[] folders = sourceDir.list();
+        if (folders == null)
+            return false;
+        
+        File saveDir = new File(saveDirParent.getAbsolutePath()  + "/" + playlistFolderName);
+        if(!saveDir.exists())
+            saveDir.mkdirs();
+        
+        //create a playlist for each of the subfolders
+        for (String str : folders) {
+            File currentFile = new File(sourceDir.getAbsolutePath() + "\\" + str);
+            if (currentFile.isDirectory()) {
+                StringBuilder name = new StringBuilder();
+                //if folders are numbered append zero to single digits to help keep things in order
+                if (str.matches("\\d{1}\\D{1}.*"))
+                    name.append(0);
+                //name for each playlist will be the name of the subfolder for which the playlist was created
+                name.append(str);
+                createAPlaylist(currentFile, saveDir, name.toString());
+            }
+        }
+        
+        String sourceString = sourceDir.getAbsolutePath();
+        String unitedPlName = sourceString.substring(sourceString.lastIndexOf("\\") + 1);
+        PlaylistCombiner.combinePlaylists(saveDir, saveDir, unitedPlName);
+        
+        return true;
     }
     
 }
