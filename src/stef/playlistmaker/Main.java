@@ -10,9 +10,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        Parent root = FXMLLoader.load(getClass().getResource("main-window.fxml"));
+        primaryStage.setTitle("Stef's Playlist Maker 9001");
         primaryStage.setScene(new Scene(root, 640, 480));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

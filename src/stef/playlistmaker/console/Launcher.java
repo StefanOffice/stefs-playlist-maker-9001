@@ -18,7 +18,7 @@ public class Launcher {
                 System.out.println("Invalid option selected.");
             System.out.println("Select an option:");
             System.out.println("1 - Create a playlist for the specified directory.");
-            System.out.println("2 - Create a playlist for each subfolder of the specified directory.");
+            System.out.println("2 - Create a playlist for each subfolder(only direct subfolders, not recursive) of the specified directory.");
             System.out.println("q - Exit");
             choice = scanner.nextLine();
         }while(!options.contains(choice.trim().toLowerCase()));

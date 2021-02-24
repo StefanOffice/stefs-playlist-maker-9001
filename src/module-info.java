@@ -4,4 +4,5 @@ module stefsPlaylistMaker {
     requires javafx.controls;
     
     opens stef.playlistmaker;
+    opens resources;
 }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="stef.playlistmaker.Controller">
+
+    <top>
+            <ImageView fitWidth="640"
+                        preserveRatio="true">
+                <Image url="@/resources/playlistmakerlogo.png"/>
+            </ImageView>
+    </top>
+
+
+
+    <center>
+        <GridPane alignment="TOP_CENTER"
+                  hgap="10" vgap="10">
+
+            <fx:define>
+                <ToggleGroup fx:id="options"/>
+            </fx:define>
+
+
+            <Label text="Choose the desired action:"
+                   GridPane.columnIndex="0"
+                   GridPane.columnSpan="2"
+                   GridPane.rowIndex="0">
+            <GridPane.margin>
+                <Insets top="30.0"/>
+            </GridPane.margin>
+            </Label>
+
+            <VBox GridPane.columnIndex="0"
+                  GridPane.columnSpan="5"
+                  GridPane.rowIndex="1">
+
+                <RadioButton mnemonicParsing="false"
+                             text="Create a playlist for the chosen directory"
+                             toggleGroup="$options"
+                             selected="true"/>
+                <RadioButton mnemonicParsing="false"
+                             text="Create a playlist for each subdirectory of the chosen directory"
+                             toggleGroup="$options"/>
+
+            </VBox>
+
+            <Label text="Source directory :"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="4"/>
+
+            <TextField GridPane.columnIndex="2"
+                       GridPane.rowIndex="4"
+                       GridPane.columnSpan="2"
+                       editable="false"/>
+
+            <Button mnemonicParsing="false"
+                    text="Browse..."
+                    GridPane.columnIndex="4"
+                    GridPane.rowIndex="4"/>
+
+            <Label text="Save to :"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="5"/>
+            <TextField GridPane.columnIndex="2"
+                       GridPane.rowIndex="5"
+                       GridPane.columnSpan="2"
+                       editable="false"/>
+            <Button mnemonicParsing="false"
+                    text="Browse..."
+                    GridPane.columnIndex="4"
+                    GridPane.rowIndex="5"/>
+
+            <Label text="Playlist name :"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="6"/>
+            <TextField GridPane.columnIndex="2"
+                       GridPane.rowIndex="6"
+                       GridPane.columnSpan="2"/>
+
+            <Label text="Status :"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="8"/>
+            <Label GridPane.columnIndex="2"
+                   GridPane.rowIndex="8"
+                   GridPane.columnSpan="5"
+                   wrapText="true"/>
+
+        </GridPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="BASELINE_RIGHT">
+            <Button mnemonicParsing="false"
+                    text="Cancel">
+                <HBox.margin>
+                    <Insets bottom="20.0"
+                            right="40.0"/>
+                </HBox.margin>
+            </Button>
+
+            <Button mnemonicParsing="false"
+                    text="Create">
+                <HBox.margin>
+                    <Insets bottom="20.0"
+                            right="40.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </bottom>
+
+</BorderPane>
