@@ -1,6 +1,7 @@
 package stef.playlistmaker.console;
 
 import java.io.*;
+import java.util.Arrays;
 
 
 public class PlaylistMaker {
@@ -14,6 +15,11 @@ public class PlaylistMaker {
         File[] files = sourceDir.listFiles(filter);
         if (files.length < 1)
             return false;
+    
+        //if file names start with numbers then sort them based on it
+        //if not leave them as is
+        if(areNumerical(files))
+            sort(files);
         
         //create a new file for the playlist
         File playlist = new File(saveDir.getAbsolutePath() + "\\" + plName + ".xspf");
@@ -34,11 +40,7 @@ public class PlaylistMaker {
             //for each of the files write the information and path to the xspf file
             for (File current : files) {
                 //replace the special characters so vlc can read the file without errors
-                String currentFilePath = current.getAbsolutePath()
-                        .replace(" ", "%20")
-                        .replace("\\", "/")
-                        .replace("&", "&amp;")
-                        .replace("#", "%23");
+                String currentFilePath = replaceSpecialChars(current.getAbsolutePath());
                 
                 //write track specific information
                 bw.write("\t\t<track>\n");
@@ -104,5 +106,55 @@ public class PlaylistMaker {
         
         return true;
     }
+    
+    private static boolean areNumerical(File[] files){
+        String path = files[0].getAbsolutePath();
+        String trackName = path.substring(path.lastIndexOf("\\") + 1);
+        return "123456789".indexOf(trackName.charAt(0)) != -1;
+    }
+    
+    private static void sort(File[] files) {
+        String path = files[0].getAbsolutePath();
+        //substring from last index of \ + 1 till the end will give the file name
+        String trackName = path.substring(path.lastIndexOf("\\") + 1);
+        
+        char d = Character.MIN_VALUE;
+        for (int i = 0; i < trackName.length(); i++) {
+            char temp = trackName.charAt(i);
+            if(!Character.isDigit(temp)){
+                d = temp;
+                break;
+            }
+        }
+        //find the delimiter after the number
+        //assumes that all file names follow the same pattern
+        final char delimiter = d;
+        
+        //sort the files based on the ordinal number in their name
+        Arrays.sort(files, (o1, o2) -> {
+            String currentFile1Path = o1.getAbsolutePath();
+            String name = currentFile1Path.substring(currentFile1Path.lastIndexOf("\\") + 1);
+            int trackCount = Integer.parseInt(name.substring(0, name.indexOf("" + delimiter)));
+            
+            String currentFile2Path = o2.getAbsolutePath();
+            String name2 = currentFile2Path.substring(currentFile2Path.lastIndexOf("\\") + 1);
+            int trackCount2 = Integer.parseInt(name2.substring(0, name2.indexOf("" + delimiter)));
+            
+            return Integer.compare(trackCount, trackCount2);
+        });
+    }
+    
+    //used to convert special character to symbols that vlc media player understands
+    private static String replaceSpecialChars(String string){
+        return string
+                .replace(" ", "%20")
+                .replace("\\", "/")
+                .replace("&", "&amp;")
+                .replace("#", "%23")
+                .replace("[", "%5B")
+                .replace("]", "%5D")
+                .replace("'", "&#39;");
+    }
+    
     
 }

@@ -19,14 +19,13 @@ public class PlaylistCombiner {
         System.out.println("\n");
         
         File combinedPlaylist = new File(saveDir + "\\" + plName + "(combined).xspf");
-        System.err.println(combinedPlaylist.getAbsolutePath());
         
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(combinedPlaylist));) {
             System.out.println("Combining Playlists...");
             //write data required for any playlist
             bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
             bw.write("<playlist xmlns=\"http://xspf.org/ns/0/\" xmlns:vlc=\"http://www.videolan.org/vlc/playlist/ns/0/\" version=\"1\">\n");
-            bw.write(String.format("\t<title>%s</title>\n", plName));
+            bw.write(String.format("\t<title>%s</title>\n", plName.replace("&", "&amp;")));
             
             bw.write("\t<trackList>\n");
             int trackCount = 0;
@@ -66,11 +65,7 @@ public class PlaylistCombiner {
                                 title = currentLine.substring(nthLastIndexOf(3, "/", currentLine) + 1, nthLastIndexOf(2, "/", currentLine));
                                 
                                 //reformat the title back to original
-                                title = title
-                                        .replace("%20", " ")
-                                        .replace("/", "\\")
-                                        .replace("&amp;", "&")
-                                        .replace("%23", "#");
+                                title = returnSpecialChars(title);
                                 titles.add(title);
                                 titleSaved = true;
                                 
@@ -124,5 +119,17 @@ public class PlaylistCombiner {
         if (nth <= 0) return string.length();
         return nthLastIndexOf(--nth, ch, string.substring(0, string.lastIndexOf(ch)));
     }
+    
+    private static String returnSpecialChars(String string){
+        return string
+                .replace("%20", " ")
+                .replace("/", "\\")
+                .replace("&amp;", "&")
+                .replace("%23", "#")
+                .replace("%5B","[" )
+                .replace("%5D", "]")
+                .replace("&#39;", "'");
+    }
+    
     
 }
