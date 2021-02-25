@@ -6,22 +6,21 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<BorderPane xmlns:fx="http://javafx.com/fxml"
+<BorderPane fx:id="mainPane"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="stef.playlistmaker.Controller">
 
     <top>
-            <ImageView fitWidth="640"
-                        preserveRatio="true">
-                <Image url="@/resources/playlistmakerlogo.png"/>
-            </ImageView>
+        <ImageView fitWidth="640"
+                   preserveRatio="true">
+            <Image url="@/resources/playlistmakerlogo.png"/>
+        </ImageView>
     </top>
-
 
 
     <center>
         <GridPane alignment="TOP_CENTER"
                   hgap="10" vgap="10">
-
             <fx:define>
                 <ToggleGroup fx:id="options"/>
             </fx:define>
@@ -31,20 +30,24 @@
                    GridPane.columnIndex="0"
                    GridPane.columnSpan="2"
                    GridPane.rowIndex="0">
-            <GridPane.margin>
-                <Insets top="30.0"/>
-            </GridPane.margin>
+                <GridPane.margin>
+                    <Insets top="30.0"/>
+                </GridPane.margin>
             </Label>
 
             <VBox GridPane.columnIndex="0"
                   GridPane.columnSpan="5"
                   GridPane.rowIndex="1">
 
-                <RadioButton mnemonicParsing="false"
+                <RadioButton fx:id="btnSingleOption"
+                             onAction="#handleOptionSelectionBtn"
+                             mnemonicParsing="false"
                              text="Create a playlist for the chosen directory"
                              toggleGroup="$options"
                              selected="true"/>
-                <RadioButton mnemonicParsing="false"
+                <RadioButton fx:id="btnMultiOption"
+                             onAction="#handleOptionSelectionBtn"
+                             mnemonicParsing="false"
                              text="Create a playlist for each subdirectory of the chosen directory"
                              toggleGroup="$options"/>
 
@@ -53,13 +56,14 @@
             <Label text="Source directory :"
                    GridPane.columnIndex="1"
                    GridPane.rowIndex="4"/>
-
-            <TextField GridPane.columnIndex="2"
+            <TextField fx:id="txtFieldSourceDir"
+                       GridPane.columnIndex="2"
                        GridPane.rowIndex="4"
                        GridPane.columnSpan="2"
                        editable="false"/>
-
-            <Button mnemonicParsing="false"
+            <Button fx:id="btnSelectSourceDir"
+                    onAction="#handleSelectDirButtons"
+                    mnemonicParsing="false"
                     text="Browse..."
                     GridPane.columnIndex="4"
                     GridPane.rowIndex="4"/>
@@ -67,36 +71,46 @@
             <Label text="Save to :"
                    GridPane.columnIndex="1"
                    GridPane.rowIndex="5"/>
-            <TextField GridPane.columnIndex="2"
+            <TextField fx:id="txtFieldSaveDir"
+                       GridPane.columnIndex="2"
                        GridPane.rowIndex="5"
                        GridPane.columnSpan="2"
                        editable="false"/>
-            <Button mnemonicParsing="false"
+            <Button fx:id="btnSelectSaveDir"
+                    onAction="#handleSelectDirButtons"
+                    mnemonicParsing="false"
                     text="Browse..."
                     GridPane.columnIndex="4"
                     GridPane.rowIndex="5"/>
 
-            <Label text="Playlist name :"
+            <Label fx:id="lblName"
+                    text="Playlist name :"
                    GridPane.columnIndex="1"
                    GridPane.rowIndex="6"/>
-            <TextField GridPane.columnIndex="2"
+            <TextField fx:id="txtFieldName"
+                       GridPane.columnIndex="2"
                        GridPane.rowIndex="6"
                        GridPane.columnSpan="2"/>
 
             <Label text="Status :"
                    GridPane.columnIndex="1"
                    GridPane.rowIndex="8"/>
-            <Label GridPane.columnIndex="2"
-                   GridPane.rowIndex="8"
-                   GridPane.columnSpan="5"
-                   wrapText="true"/>
+            <ScrollPane GridPane.columnIndex="2"
+                        GridPane.rowIndex="8"
+                        GridPane.columnSpan="3"
+                        maxWidth="250">
+                <Label fx:id="lblInfo"
+                       text="Welcome to playlist maker 9001!"
+                       wrapText="true"/>
+            </ScrollPane>
 
         </GridPane>
     </center>
 
     <bottom>
         <HBox alignment="BASELINE_RIGHT">
-            <Button mnemonicParsing="false"
+            <Button onAction="#handleCancelBtn"
+                    mnemonicParsing="false"
                     text="Cancel">
                 <HBox.margin>
                     <Insets bottom="20.0"
@@ -104,7 +118,8 @@
                 </HBox.margin>
             </Button>
 
-            <Button mnemonicParsing="false"
+            <Button onAction="#handleCreateBtn"
+                    mnemonicParsing="false"
                     text="Create">
                 <HBox.margin>
                     <Insets bottom="20.0"
