@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.stage.DirectoryChooser;
@@ -36,6 +38,14 @@ public class Controller {
     private RadioButton btnSingleOption;
     @FXML
     private RadioButton btnMultiOption;
+    @FXML
+    private RadioButton btnClassicTheme;
+    @FXML
+    private RadioButton btnStylishTheme;
+    @FXML
+    private ImageView imgLogo;
+    private final Image classicLogo = new Image("/resources/pmlogoclassic.png");
+    private final Image stylishLogo = new Image("/resources/pmlogostylish.png");
     
     //save last opened locations for easier folder selection
     String lastOpenedSourceDir;
@@ -149,5 +159,16 @@ public class Controller {
     @FXML
     public void handleCancelBtn(Event event){
         Platform.exit();
+    }
+    
+    @FXML
+    public void handleThemeBtn(Event event){
+        if(event.getSource() == btnClassicTheme){
+            mainPane.getScene().getStylesheets().remove("/resources/dark-theme.css");
+            imgLogo.setImage(classicLogo);
+        } else if(event.getSource() == btnStylishTheme){
+            mainPane.getScene().getStylesheets().add("/resources/dark-theme.css");
+            imgLogo.setImage(stylishLogo);
+        }
     }
 }

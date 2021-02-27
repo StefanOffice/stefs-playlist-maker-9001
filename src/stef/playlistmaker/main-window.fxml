@@ -11,9 +11,10 @@
             fx:controller="stef.playlistmaker.Controller">
 
     <top>
-        <ImageView fitWidth="640"
+        <ImageView fx:id="imgLogo"
+                   fitWidth="640"
                    preserveRatio="true">
-            <Image url="@/resources/playlistmakerlogo.png"/>
+            <Image url="@/resources/pmlogostylish.png"/>
         </ImageView>
     </top>
 
@@ -23,6 +24,7 @@
                   hgap="10" vgap="10">
             <fx:define>
                 <ToggleGroup fx:id="options"/>
+                <ToggleGroup fx:id="themes"/>
             </fx:define>
 
 
@@ -84,7 +86,7 @@
                     GridPane.rowIndex="5"/>
 
             <Label fx:id="lblName"
-                    text="Playlist name :"
+                   text="Playlist name :"
                    GridPane.columnIndex="1"
                    GridPane.rowIndex="6"/>
             <TextField fx:id="txtFieldName"
@@ -108,25 +110,65 @@
     </center>
 
     <bottom>
-        <HBox alignment="BASELINE_RIGHT">
-            <Button onAction="#handleCancelBtn"
-                    mnemonicParsing="false"
-                    text="Cancel">
-                <HBox.margin>
-                    <Insets bottom="20.0"
-                            right="40.0"/>
-                </HBox.margin>
-            </Button>
+        <BorderPane>
+            <left>
+                <HBox alignment="CENTER_LEFT" spacing="20">
 
-            <Button onAction="#handleCreateBtn"
-                    mnemonicParsing="false"
-                    text="Create">
-                <HBox.margin>
-                    <Insets bottom="20.0"
-                            right="40.0"/>
-                </HBox.margin>
-            </Button>
-        </HBox>
+                    <Label text="Theme :">
+                        <HBox.margin>
+                            <Insets bottom="20.0"
+                                    left="40.0"/>
+                        </HBox.margin>
+                    </Label>
+
+                    <RadioButton fx:id="btnClassicTheme"
+                                 onAction="#handleThemeBtn"
+                                 mnemonicParsing="false"
+                                 text="JavaFX default"
+                                 toggleGroup="$themes"
+                                 selected="true">
+                    <HBox.margin>
+                        <Insets bottom="20.0"
+                                left="10.0"/>
+                    </HBox.margin>
+                    </RadioButton>
+                    <RadioButton fx:id="btnStylishTheme"
+                                 onAction="#handleThemeBtn"
+                                 mnemonicParsing="false"
+                                 text="Stylish"
+                                 toggleGroup="$themes"
+                                 selected="true">
+                    <HBox.margin>
+                        <Insets bottom="20.0"
+                                left="10.0"/>
+                    </HBox.margin>
+                </RadioButton>
+                </HBox>
+            </left>
+            <right>
+                <HBox alignment="CENTER_RIGHT">
+
+                    <Button onAction="#handleCancelBtn"
+                            mnemonicParsing="false"
+                            text="Cancel">
+                        <HBox.margin>
+                            <Insets bottom="20.0"
+                                    right="40.0"/>
+                        </HBox.margin>
+                    </Button>
+
+                    <Button onAction="#handleCreateBtn"
+                            mnemonicParsing="false"
+                            text="Create">
+                        <HBox.margin>
+                            <Insets bottom="20.0"
+                                    right="40.0"/>
+                        </HBox.margin>
+                    </Button>
+                </HBox>
+            </right>
+
+        </BorderPane>
     </bottom>
 
 </BorderPane>

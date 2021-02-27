@@ -1,0 +1,50 @@
+.root {
+    -fx-base: #210124;
+    -fx-accent: #B3DEC1;
+    -fx-default-button: #DBF9F0 ;
+    -fx-focus-color: #DBF9F0;
+    -fx-faint-focus-color: #DBF9F0;
+    -fx-focused-text-base-color : ladder(
+            -fx-selection-bar,
+            -fx-light-text-color 45%,
+            -fx-dark-text-color 46%,
+            -fx-dark-text-color 59%,
+            -fx-mid-text-color 60%
+        );
+    -fx-focused-mark-color : -fx-focused-text-base-color ;
+}
+
+.text-input:focused {
+    -fx-highlight-text-fill: ladder(
+        -fx-highlight-fill,
+        -fx-light-text-color 45%,
+        -fx-dark-text-color  46%,
+        -fx-dark-text-color  59%,
+        -fx-mid-text-color   60%
+    );
+}
+
+.label{
+    -fx-text-fill: -fx-accent;
+}
+
+.text-field {
+    -fx-prompt-text-fill: -fx-accent;
+}
+
+.button{
+    -fx-focus-traversable: false;
+    -fx-text-fill: -fx-accent;
+}
+
+.radio-button{
+        -fx-text-fill: -fx-accent;
+}
+
+.button:hover{
+    -fx-text-fill: -fx-accent;
+}
+
+.button:default {
+    -fx-base: -fx-accent;
+}

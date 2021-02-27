@@ -12,7 +12,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main-window.fxml"));
         primaryStage.setTitle("Stef's Playlist Maker 9001");
-        primaryStage.setScene(new Scene(root, 640, 480));
+        Scene scene = new Scene(root, 640, 480);
+        scene.getStylesheets().add("/resources/dark-theme.css");
+        primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
